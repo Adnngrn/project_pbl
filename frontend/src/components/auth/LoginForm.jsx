@@ -1,15 +1,37 @@
-import React, { useState } from 'react';
-import InputField from './InputField';
-import SubmitButton from './SubmitButton';
+import React, { useState } from "react";
+import InputField from "./InputField";
+import SubmitButton from "./SubmitButton";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../services/authService";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
+
+    try {
+      const res = await login({ email, password });
+      const data = res.data;
+
+      // simpan token & info user
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      alert("Login berhasil");
+
+      // redirect sesuai role
+      if (data.user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/"); // nanti bisa diarahkan ke dashboard member
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert(err.response?.data?.message || "Login gagal");
+    }
   };
 
   return (

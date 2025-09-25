@@ -4,17 +4,40 @@ const User = require('../models/User');
 
 
 const register = async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
-        const exists = await User.findOne({ email });
-        if (exists) return res.status(400).json({ message: 'Email already used' });
-        const hashed = await bcrypt.hash(password, 10);
-        const user = await User.create({ name, email, password: hashed, status: 'pending' });
-        return res.status(201).json({ message: 'Registered. Waiting admin approval', userId: user._id });
-    } catch (err) {
-        return res.status(500).json({ message: err.message });
+  try {
+    const { name, handphone, email, password, gender, address } = req.body;
+
+    // cek email sudah ada
+    const exists = await User.findOne({ email });
+    if (exists) return res.status(400).json({ message: 'Email already used' });
+
+    // hash password
+    const hashed = await bcrypt.hash(password, 10);
+
+    // simpan user baru
+    const user = await User.create({
+      name,
+      handphone,
+      email,
+      password: hashed,
+      gender,
+      address,
+      status: 'pending' // default, tunggu approval admin
+    });
+
+    return res.status(201).json({
+      message: 'Registered. Waiting admin approval',
+      userId: user._id
+    });
+  } catch (err) {
+    // tangani error duplicate email
+    if (err.code === 11000) {
+      return res.status(400).json({ message: "Email sudah terdaftar" });
     }
+    return res.status(500).json({ message: err.message });
+  }
 };
+
 
 
 const login = async (req, res) => {

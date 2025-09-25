@@ -1,16 +1,23 @@
+// routes/users.js
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
-const roles = require('../middleware/roles');
-const { list, getUser, approveUser, updateUser, deleteUser } = require('../controllers/userController');
+const authorize = require('../middleware/authorize');
+const {
+  list,
+  getUser,
+  approveUser,
+  updateUser,
+  deleteUser
+} = require('../controllers/userController');
 
+// Semua route di bawah ini hanya untuk role "admin"
+router.use(authorize(['admin']));
 
-router.use(auth);
-router.get('/', roles(['admin']), list);
-router.get('/:id', roles(['admin']), getUser);
-router.put('/:id/approve', roles(['admin']), approveUser);
-router.put('/:id', roles(['admin']), updateUser);
-router.delete('/:id', roles(['admin']), deleteUser);
-
+// Routes
+router.get('/', list);
+router.get('/:id', getUser);
+router.put('/:id/approve', approveUser);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 module.exports = router;
