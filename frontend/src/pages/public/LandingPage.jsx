@@ -2,6 +2,9 @@ import React from 'react';
 import Navbar from '../../components/landing/Navbar';
 import Home from '../../components/landing/Home';
 import About from '../../components/landing/About';
+import Event from '../../components/landing/Event';
+import Contact from '../../components/landing/Contact';
+
 
 const Section = ({ id, contents, addClass }) => (
   <section id={id} className={`${addClass}`}>
@@ -16,8 +19,8 @@ const LandingPage = () => {
       <div className="">
         <Section id="home" contents={<Home />} />
         <Section id="about" contents={<About/>}/>
-        <Section id="program" contents="Program" addClass="min-h-screen flex items-center justify-center bg-purple-600" />
-        <Section id="contact" contents="Contact" addClass="min-h-screen flex items-center justify-center bg-red-600" />
+        <Section id="program" contents={<Event/>} />
+        <Section id="contact" contents={<Contact/>}/>
       </div>
     </div>
   );

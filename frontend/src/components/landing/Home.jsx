@@ -1,4 +1,6 @@
 import React from 'react';
+import bgImage from '../../assets/bg-gsosial.jpg';
+
 
 const CardKomitmen = ({icon, title, content}) => (
     <div className="bg-white bg-opacity-20 rounded-lg p-6 shadow-lg">
@@ -56,20 +58,21 @@ const Home = () => {
     <div className='min-h-screen relative'>
       {/* Background Image */}
       <div 
-        className="w-full h-full bg-cover bg-center"
-        // style={{ backgroundImage: "url('URL_GAMBAR_KONSTRUKSI')" }}
+        className="w-full min-h-screen bg-cover bg-center"
+        style={{ backgroundImage: `url(${bgImage})` }}
       ></div>
 
+
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div className="absolute inset-0 bg-black/50"></div>
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-4 text-center max-w-5xl mx-auto">
         <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl mb-4 leading-tight">
-          Pembangunan Mesjid
+          Lorem Ipsum
         </h1>
         <p className="text-lg md:text-xl mb-8">
-          Program pembangunan tempat ibadah
+          Lorem ipsum dolor sit amet.
         </p>
         <div className="flex flex-col md:flex-row gap-4">
           <button className="bg-orange-500 px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition">

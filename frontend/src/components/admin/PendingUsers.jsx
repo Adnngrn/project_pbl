@@ -55,12 +55,13 @@ const PendingUsers = ({ jml = 5 }) => {
 
   return (
     <section id="anggota" className="bg-white p-6 rounded-lg shadow">
-      <h3 className="text-lg font-bold mb-4">User Pending Approval</h3>
+      <h3 className="text-lg font-bold mb-4">Pendaftar Anggota</h3>
       <table className="w-full border-collapse border border-gray-200 text-sm">
         <thead className="bg-gray-100">
           <tr>
             <th className="border border-gray-200 p-2 text-left">No</th>
             <th className="border border-gray-200 p-2 text-left">Nama</th>
+            <th className="border border-gray-200 p-2 text-left">Gender</th>
             <th className="border border-gray-200 p-2 text-left">Email</th>
             <th className="border border-gray-200 p-2 text-left">Aksi</th>
           </tr>
@@ -73,6 +74,7 @@ const PendingUsers = ({ jml = 5 }) => {
                   {startIndex + index + 1}
                 </td>
                 <td className="border border-gray-200 p-2">{user.name}</td>
+                <td className="border border-gray-200 p-2">{user.gender}</td>
                 <td className="border border-gray-200 p-2">{user.email}</td>
                 <td className="border border-gray-200 p-2">
                   <button

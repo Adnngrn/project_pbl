@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import InputField from "./InputField";
 import SubmitButton from "./SubmitButton";
-import { register } from "../services/authService";
+import { register } from "../../services/authService";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");

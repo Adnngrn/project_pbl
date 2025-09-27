@@ -1,4 +1,6 @@
 import React from 'react';
+import gsosialImage from '../../assets/gsosial1.jpg';
+
 
 const About = () => {
   return (
@@ -10,9 +12,9 @@ const About = () => {
       <div className="space-y-6">
         <div className="relative rounded-xl overflow-hidden shadow-lg hidden md:block">
           <img
-            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80"
-            alt="Kemas Foundation"
-            className="w-full h-auto object-cover"
+            src={gsosialImage}
+            alt="GSosioal"
+            className="w-full h-full object-cover"
           />
           {/* Icon Star Top Right */}
           {/* <div className="absolute top-3 right-3 bg-white rounded-full p-2 shadow cursor-pointer">

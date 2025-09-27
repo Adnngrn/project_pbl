@@ -1,19 +1,19 @@
 // src/components/admin/Sidebar.jsx
 import React from "react";
+import { Link } from "react-router-dom"; // ⬅️ Gunakan Link, bukan <a>
 
-const SidebarItem = ({ href, label }) => {
+const SidebarItem = ({ to, label }) => {
   return (
     <li>
-      <a
-        href={href}
+      <Link
+        to={to}
         className="block px-6 py-2 text-white rounded transition-all duration-200 hover:text-amber-700 hover:bg-amber-100 hover:scale-105 hover:translate-x-1"
       >
         {label}
-      </a>
+      </Link>
     </li>
   );
 };
-
 
 const Sidebar = () => {
   return (
@@ -23,9 +23,10 @@ const Sidebar = () => {
       </div>
       <nav className="mt-6">
         <ul className="space-y-2">
-          <SidebarItem href="#anggota" label="Data Anggota" />
-          <SidebarItem href="#iuran" label="Data Iuran" />
-          <SidebarItem href="#event" label="Event / Program" />
+          <SidebarItem to="/admin" label="Dashboard" />
+          <SidebarItem to="/admin/manage-member" label="Data Anggota" />
+          <SidebarItem to="/admin/donations" label="Data Donasi" />
+          <SidebarItem to="/admin/events" label="Event / Program" />
         </ul>
       </nav>
     </aside>

@@ -1,19 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const auth = require('../middleware/auth');
-const roles = require('../middleware/roles');
-const { createEvent, listEvents, getEvent, updateEvent, deleteEvent } = require('../controllers/eventController');
+const authorize = require("../middleware/authorize");
+const { createEvent, listEvents, getEvent, updateEvent, deleteEvent } = require("../controllers/eventController");
 
-
-// public list
-router.get('/', listEvents);
-router.get('/:id', getEvent);
-
-
-// authenticated actions
-router.post('/', auth, roles(['admin']), createEvent);
-router.put('/:id', auth, roles(['admin']), updateEvent);
-router.delete('/:id', auth, roles(['admin']), deleteEvent);
-
+// admin bisa tambah/edit/hapus
+router.get("/", listEvents); // semua bisa lihat list
+router.get("/:id", getEvent);
+router.post("/", authorize(["admin"]), createEvent);
+router.put("/:id", authorize(["admin"]), updateEvent);
+router.delete("/:id", authorize(["admin"]), deleteEvent);
 
 module.exports = router;

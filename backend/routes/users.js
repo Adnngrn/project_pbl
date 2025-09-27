@@ -7,7 +7,8 @@ const {
   getUser,
   approveUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  updateUserStatus
 } = require('../controllers/userController');
 
 // Semua route di bawah ini hanya untuk role "admin"
@@ -19,5 +20,7 @@ router.get('/:id', getUser);
 router.put('/:id/approve', approveUser);
 router.put('/:id', updateUser);
 router.delete('/:id', deleteUser);
+router.patch('/:id/status', updateUserStatus);
+
 
 module.exports = router;

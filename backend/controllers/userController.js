@@ -29,4 +29,21 @@ const deleteUser = async (req, res) => {
     res.json({ message: 'Deleted' });
 };
 
-module.exports = { list, getUser, approveUser, updateUser, deleteUser };
+const updateUserStatus = async (req, res) => {
+    const { status } = req.body;
+
+    if (!["active", "inactive"].includes(status)) {
+        return res.status(400).json({ message: 'Status tidak valid' });
+    }
+
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.status = status;
+    await user.save();
+
+    res.json({ message: `Status updated to ${status}` });
+};
+
+
+module.exports = { list, getUser, approveUser, updateUser, deleteUser, updateUserStatus };
