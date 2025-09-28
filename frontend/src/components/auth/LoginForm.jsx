@@ -26,7 +26,7 @@ const LoginForm = () => {
       if (data.user.role === "admin") {
         navigate("/admin");
       } else {
-        navigate("/"); // nanti bisa diarahkan ke dashboard member
+        navigate("/member"); // nanti bisa diarahkan ke dashboard member
       }
     } catch (err) {
       console.error("Login error:", err);

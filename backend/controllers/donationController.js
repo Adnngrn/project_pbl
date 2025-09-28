@@ -44,14 +44,14 @@ const getProgramDetail = async (req, res) => {
     const program = await DonationProgram.findById(req.params.id).lean();
     if (!program) return res.status(404).json({ message: 'Program not found' });
 
-    // Ambil semua donasi terkait program ini (hanya approved & pending)
+    // Ambil SEMUA donasi terkait program ini (bukan cuma approved/pending)
     const donations = await Donation.find({
       program: program._id,
-      status: { $in: ['approved', 'pending'] },
     })
       .populate('user', 'name email')
       .lean();
 
+    // Kelompokkan berdasarkan status
     const approved = donations
       .filter(d => d.status === 'approved')
       .map(d => ({
@@ -61,7 +61,7 @@ const getProgramDetail = async (req, res) => {
         amount: d.amount,
         date: d.createdAt,
         status: d.status,
-        proof: d.proof // ✅ Tambahkan ini
+        proof: d.proof,
       }));
 
     const pending = donations
@@ -73,20 +73,32 @@ const getProgramDetail = async (req, res) => {
         amount: d.amount,
         date: d.createdAt,
         status: d.status,
-        proof: d.proof // ✅ Tambahkan ini
+        proof: d.proof,
       }));
 
+    const rejected = donations
+      .filter(d => d.status === 'rejected')
+      .map(d => ({
+        _id: d._id,
+        name: d.user.name,
+        email: d.user.email,
+        amount: d.amount,
+        date: d.createdAt,
+        status: d.status,
+        proof: d.proof,
+      }));
 
-    // Gabungkan dan kirim
     res.json({
       ...program,
       approvedDonations: approved,
       pendingDonations: pending,
+      rejectedDonations: rejected, // ✅ Tambahkan ini
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 // Update Program
 const updateProgram = async (req, res) => {

@@ -1,4 +1,3 @@
-// src/pages/admin/DonationProgramDetail.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -14,9 +13,12 @@ const DonationProgramDetail = () => {
   const { id } = useParams();
   const [program, setProgram] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("approved");
 
-  // state untuk modal edit
+  // modal states
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedDonation, setSelectedDonation] = useState(null);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -24,14 +26,10 @@ const DonationProgramDetail = () => {
     status: "open",
   });
 
-  // state untuk modal detail donasi
-  const [selectedDonation, setSelectedDonation] = useState(null);
-
   const fetchProgram = async () => {
     try {
       const res = await getDonationProgramDetail(id);
       setProgram(res.data);
-      // isi formData awal
       setFormData({
         title: res.data.title,
         description: res.data.description,
@@ -57,7 +55,7 @@ const DonationProgramDetail = () => {
   const handleUpdate = async () => {
     try {
       await updateDonationProgram(id, formData);
-      await fetchProgram(); // refresh data
+      await fetchProgram();
       setIsEditing(false);
     } catch (err) {
       console.error("Gagal update program:", err);
@@ -131,93 +129,189 @@ const DonationProgramDetail = () => {
         </div>
       </div>
 
-      {/* === Donasi yang Disetujui === */}
-      <h3 className="text-lg font-semibold mt-6 mb-2">
-        Donasi yang Disetujui
-      </h3>
-      {program.approvedDonations?.length > 0 ? (
-        <table className="w-full border text-sm mb-6">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border border-gray-300 p-2">Nama</th>
-              <th className="border border-gray-300 p-2">Email</th>
-              <th className="border border-gray-300 p-2">Jumlah</th>
-              <th className="border border-gray-300 p-2">Tanggal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {program.approvedDonations.map((donor, idx) => (
-              <tr key={idx}>
-                <td className="border border-gray-300 p-2">{donor.name}</td>
-                <td className="border border-gray-300 p-2">{donor.email}</td>
-                <td className="border border-gray-300 p-2">
-                  Rp {donor.amount.toLocaleString("id-ID")}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {new Date(donor.date).toLocaleDateString("id-ID")}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p className="text-gray-500">Belum ada donasi yang disetujui.</p>
+      {/* === TAB Navigation === */}
+      <div className="flex gap-4 mb-4 border-b pb-2">
+        <button
+          onClick={() => setActiveTab("approved")}
+          className={`px-4 py-2 rounded-t ${
+            activeTab === "approved"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-100 text-gray-700"
+          }`}
+        >
+          Disetujui
+        </button>
+        <button
+          onClick={() => setActiveTab("pending")}
+          className={`px-4 py-2 rounded-t ${
+            activeTab === "pending"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-100 text-gray-700"
+          }`}
+        >
+          Menunggu
+        </button>
+        <button
+          onClick={() => setActiveTab("rejected")}
+          className={`px-4 py-2 rounded-t ${
+            activeTab === "rejected"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-100 text-gray-700"
+          }`}
+        >
+          Ditolak
+        </button>
+      </div>
+
+      {/* === TABEL DONASI === */}
+      {activeTab === "approved" && (
+        <>
+          {program.approvedDonations?.length > 0 ? (
+            <table className="w-full border text-sm mb-6">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="border border-gray-300 p-2">Nama</th>
+                  <th className="border border-gray-300 p-2">Email</th>
+                  <th className="border border-gray-300 p-2">Jumlah</th>
+                  <th className="border border-gray-300 p-2">Tanggal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {program.approvedDonations.map((donor, idx) => (
+                  <tr key={idx}>
+                    <td className="border border-gray-300 p-2">{donor.name}</td>
+                    <td className="border border-gray-300 p-2">{donor.email}</td>
+                    <td className="border border-gray-300 p-2">
+                      Rp {donor.amount.toLocaleString("id-ID")}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {new Date(donor.date).toLocaleString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-gray-500">Belum ada donasi yang disetujui.</p>
+          )}
+        </>
       )}
 
-      {/* === Donasi Menunggu Persetujuan === */}
-      <h3 className="text-lg font-semibold mt-6 mb-2">
-        Donasi Menunggu Persetujuan
-      </h3>
-      {program.pendingDonations?.length > 0 ? (
-        <table className="w-full border text-sm">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border border-gray-300 p-2">Nama</th>
-              <th className="border border-gray-300 p-2">Email</th>
-              <th className="border border-gray-300 p-2">Jumlah</th>
-              <th className="border border-gray-300 p-2">Tanggal</th>
-              <th className="border border-gray-300 p-2">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {program.pendingDonations.map((donor, idx) => (
-              <tr key={idx}>
-                <td className="border border-gray-300 p-2">{donor.name}</td>
-                <td className="border border-gray-300 p-2">{donor.email}</td>
-                <td className="border border-gray-300 p-2">
-                  Rp {donor.amount.toLocaleString("id-ID")}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {new Date(donor.date).toLocaleDateString("id-ID")}
-                </td>
-                <td className="border border-gray-300 p-2 text-center">
-                  <button
-                    onClick={() => setSelectedDonation(donor)}
-                    className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2"
-                  >
-                    Detail
-                  </button>
-                  <button
-                    onClick={() => handleApprove(donor._id)}
-                    className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 mr-2"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => handleReject(donor._id)}
-                    className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                  >
-                    Reject
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p className="text-gray-500">
-          Tidak ada donasi yang menunggu persetujuan.
-        </p>
+      {activeTab === "pending" && (
+        <>
+          {program.pendingDonations?.length > 0 ? (
+            <table className="w-full border text-sm mb-6">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="border border-gray-300 p-2">Nama</th>
+                  <th className="border border-gray-300 p-2">Email</th>
+                  <th className="border border-gray-300 p-2">Jumlah</th>
+                  <th className="border border-gray-300 p-2">Tanggal</th>
+                  <th className="border border-gray-300 p-2">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {program.pendingDonations.map((donor, idx) => (
+                  <tr key={idx}>
+                    <td className="border border-gray-300 p-2">{donor.name}</td>
+                    <td className="border border-gray-300 p-2">{donor.email}</td>
+                    <td className="border border-gray-300 p-2">
+                      Rp {donor.amount.toLocaleString("id-ID")}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {new Date(donor.date).toLocaleString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                      })}
+                    </td>
+                    <td className="border border-gray-300 p-2 text-center">
+                      <button
+                        onClick={() => setSelectedDonation(donor)}
+                        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2"
+                      >
+                        Detail
+                      </button>
+                      <button
+                        onClick={() => handleApprove(donor._id)}
+                        className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 mr-2"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => handleReject(donor._id)}
+                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                      >
+                        Reject
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-gray-500">Tidak ada donasi yang menunggu persetujuan.</p>
+          )}
+        </>
+      )}
+
+      {activeTab === "rejected" && (
+        <>
+          {program.rejectedDonations?.length > 0 ? (
+            <table className="w-full border text-sm mb-6">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="border border-gray-300 p-2">Nama</th>
+                  <th className="border border-gray-300 p-2">Email</th>
+                  <th className="border border-gray-300 p-2">Jumlah</th>
+                  <th className="border border-gray-300 p-2">Tanggal</th>
+                  <th className="border border-gray-300 p-2">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {program.rejectedDonations.map((donor, idx) => (
+                  <tr key={idx}>
+                    <td className="border border-gray-300 p-2">{donor.name}</td>
+                    <td className="border border-gray-300 p-2">{donor.email}</td>
+                    <td className="border border-gray-300 p-2">
+                      Rp {donor.amount.toLocaleString("id-ID")}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {new Date(donor.date).toLocaleString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                      })}
+                    </td>
+                    <td className="border border-gray-300 p-2 text-center">
+                      <button
+                        onClick={() => setSelectedDonation(donor)}
+                        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2"
+                      >
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-gray-500">Tidak ada donasi yang ditolak.</p>
+          )}
+        </>
       )}
 
       {/* === Modal Edit Program === */}
@@ -284,18 +378,13 @@ const DonationProgramDetail = () => {
         </div>
       )}
 
-
       {/* === Modal Detail Donasi === */}
       {selectedDonation && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
           <div className="bg-white p-6 rounded shadow-lg w-[500px]">
             <h3 className="text-xl font-bold mb-4">Detail Donasi</h3>
-            <p>
-              <strong>Nama:</strong> {selectedDonation.name}
-            </p>
-            <p>
-              <strong>Email:</strong> {selectedDonation.email}
-            </p>
+            <p><strong>Nama:</strong> {selectedDonation.name}</p>
+            <p><strong>Email:</strong> {selectedDonation.email}</p>
             <p>
               <strong>Jumlah:</strong> Rp{" "}
               {selectedDonation.amount.toLocaleString("id-ID")}
@@ -303,18 +392,15 @@ const DonationProgramDetail = () => {
             <p>
               <strong>Tanggal:</strong>{" "}
               {new Date(selectedDonation.date).toLocaleDateString("id-ID")}
-              {console.log("proof:", selectedDonation.proof)}
-
             </p>
 
             <div className="mt-4">
-                <p className="font-semibold mb-2">Bukti Transfer:</p>
-                <img
-                    src={`${import.meta.env.VITE_UPLOAD_URL}/uploads/${selectedDonation.proof}`}
-
-                    alt="Bukti transfer"
-                    className="max-h-80 w-full object-contain border rounded"
-                />
+              <p className="font-semibold mb-2">Bukti Transfer:</p>
+              <img
+                src={`${import.meta.env.VITE_UPLOAD_URL}/uploads/${selectedDonation.proof}`}
+                alt="Bukti transfer"
+                className="max-h-80 w-full object-contain border rounded"
+              />
             </div>
 
             <div className="flex justify-end gap-2 mt-4">

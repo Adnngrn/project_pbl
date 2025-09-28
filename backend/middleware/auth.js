@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 
-module.exports = async (req, res, next) => {
+const auth = async (req, res, next) => {
     const header = req.headers.authorization;
     if (!header) return res.status(401).json({ message: 'No token provided' });
     const token = header.split(' ')[1];
@@ -16,3 +16,4 @@ module.exports = async (req, res, next) => {
         return res.status(401).json({ message: 'Token invalid or expired' });
     }
 };
+module.exports = auth;

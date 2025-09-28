@@ -4,9 +4,9 @@ import { getDonationPrograms } from "../../services/donationProgramService"; // 
 
 // mapping warna status event
 const statusColors = {
-  upcoming: "bg-yellow-500 border-yellow-500",
-  ongoing: "bg-green-500 border-green-500",
-  finished: "bg-red-500 border-red-500",
+  upcoming: "text-yellow-500 border-yellow-500",
+  ongoing: "text-green-500 border-green-500",
+  finished: "text-red-500 border-red-500",
 };
 
 // card untuk event
@@ -18,7 +18,7 @@ const EventCard = ({ category, status, title, description }) => {
           {category}
         </span>
         <span
-          className={`${statusColors[status] || "bg-gray-400"} text-white text-xs border font-semibold px-3 py-1 rounded-full capitalize`}
+          className={`${statusColors[status] || "text-gray-400 border-gray-400"} text-xs border font-semibold px-3 py-1 rounded-full capitalize`}
         >
           {status}
         </span>
@@ -35,12 +35,12 @@ const DonationCard = ({ title, description, collected, target }) => {
 
   return (
     <div className="w-full md:w-[50%] bg-white/50 backdrop-blur-md rounded-xl shadow-md p-6">
-      <h3 className="text-2xl font-semibold mb-2 text-gray-800">{title}</h3>
-      <p className="text-lg text-gray-700 mb-4">{description}</p>
+      <h3 className="text-xl md:text-2xl font-semibold mb-2 text-gray-800">{title}</h3>
+      <p className="text-sm md:text-lg text-gray-700 mb-4">{description}</p>
 
       {/* Progress */}
       <div className="mb-3">
-        <div className="flex justify-between text-md text-gray-600 mb-1">
+        <div className="flex justify-between text-sm md:text-md text-gray-600 mb-1">
           <span>Terkumpul: Rp{collected.toLocaleString()}</span>
           <span>Target: Rp{target.toLocaleString()}</span>
         </div>
@@ -100,7 +100,7 @@ const Event = () => {
     <section className="py-6 md:py-12 bg-gradient-to-b from-white via-gray-200 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Events */}
-        <h2 className="text-4xl md:text-5xl font-bold py-12 text-amber-500">
+        <h2 className="text-3xl md:text-5xl font-bold py-12 text-amber-500">
           Program Kami
         </h2>
 
@@ -130,7 +130,7 @@ const Event = () => {
 
       {/* Section Donasi */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-        <h2 className="text-4xl font-bold text-center text-amber-600 mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-amber-600 mb-10">
           Program Donasi Aktif
         </h2>
 

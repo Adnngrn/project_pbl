@@ -1,6 +1,11 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
+import LayoutMember from "../components/member/LayoutMember";
+import DashboardMember from "../pages/member/DashboardMember";
+import ProgramMember from "../pages/member/ProgramMember";
+import AccountMember from "../pages/member/AccountMember";
+import MemberPage from "../pages/member/MemberPage";
 
 // Lazy load pages
 const LandingPage = lazy(() => import("../pages/public/LandingPage"));
@@ -14,6 +19,7 @@ const AddDonationProgram = lazy(() => import("../pages/admin/AddDonationProgram"
 const DonationProgramDetail = lazy(() => import("../pages/admin/DonationProgramDetail"));
 const ManageEventAdmin = lazy(() => import("../pages/admin/ManageEventAdmin"));
 const EventDetailAdmin = lazy(() => import("../pages/admin/EventDetailAdmin"));
+const DonationFormPage = lazy(() => import("../pages/member/DonationFormPage"));
 
 
 const AppRoutes = () => {
@@ -53,16 +59,19 @@ const AppRoutes = () => {
           {/* nested routes */}
         </Route>
 
-        {/* <Route
-          path="/member/*"
+        <Route
+          path="/member"
           element={
             <ProtectedRoute role="member">
-              <LayoutAdmin />
+              <MemberPage/>
             </ProtectedRoute>
           }
         >
-          <Route index element={<AdminDashboard />} />
-        </Route> */}
+          <Route index element={<DashboardMember/>} />
+          <Route path="program" element={<ProgramMember/>} />
+          <Route path="account" element={<AccountMember/>} />
+          <Route path="donasi/:id/form" element={<DonationFormPage/>} />
+        </Route>
 
       </Routes>
     </Suspense>
