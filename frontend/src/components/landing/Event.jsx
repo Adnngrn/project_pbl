@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getEvents } from "../../services/eventService";
 import { getDonationPrograms } from "../../services/donationProgramService"; // service API donasi
+import EmptyStateCard from "../EmptyStateCard";
 
 // mapping warna status event
 const statusColors = {
@@ -95,6 +96,8 @@ const Event = () => {
     }, []);
 
   const displayedEvents = showAll ? events : events.slice(0, limit);
+  const activeDonations = donations.filter((donasi) => donasi.status === "open");
+
 
   return (
     <section className="py-6 md:py-12 bg-gradient-to-b from-white via-gray-200 to-white">
@@ -105,16 +108,21 @@ const Event = () => {
         </h2>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {displayedEvents.map((event) => (
-            <EventCard
-              key={event._id}
-              category={event.category}
-              status={event.status}
-              title={event.title}
-              description={event.description}
-            />
-          ))}
+          {displayedEvents.length > 0 ? (
+            displayedEvents.map((event) => (
+              <EventCard
+                key={event._id}
+                category={event.category}
+                status={event.status}
+                title={event.title}
+                description={event.description}
+              />
+            ))
+          ) : (
+            <EmptyStateCard title={'Tidak Ada Program Event'} message={'Program Event baru akan ditampilkan di sini ketika tersedia.'}/>
+          )}
         </div>
+
 
         {events.length > limit && (
           <div className="flex justify-center mt-6">
@@ -135,16 +143,25 @@ const Event = () => {
         </h2>
 
         <div className="flex flex-wrap justify-center gap-6">
-          {donations.map((donasi) => (
-            <DonationCard
+          {activeDonations.length > 0 ? (
+            activeDonations.map((donasi) => (
+              <DonationCard
                 key={donasi._id}
                 title={donasi.title}
                 description={donasi.description}
                 collected={donasi.collectedAmount}
                 target={donasi.targetAmount}
+              />
+            ))
+          ) : (
+            <EmptyStateCard
+              title="Tidak Ada Program Donasi Aktif"
+              message="Saat ini tidak ada program donasi yang sedang berlangsung. Program baru akan ditampilkan di sini ketika tersedia."
             />
-          ))}
+          )}
         </div>
+
+
       </div>
     </section>
   );
