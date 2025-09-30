@@ -23,8 +23,6 @@ connectDB(process.env.MONGO_URI || 'mongodb://localhost:27017/projek_pbl');
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/events', require('./routes/events'));
-app.use('/api/dues', require('./routes/dues'));
-app.use('/api/finance', require('./routes/finance'));
 app.use('/api/donations', require('./routes/donations'));
 app.use('/api/profile', require('./routes/profile'));
 

@@ -1,5 +1,6 @@
 // components/Navbar.jsx
 import React, { useEffect, useState } from "react";
+import logo from "../../assets/GSosial.png";
 
 const sections = ["home", "about", "program", "contact"];
 
@@ -38,8 +39,8 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 w-full bg-white shadow z-50">
       <div className="container mx-auto px-6 flex justify-between items-center py-4">
         {/* Logo */}
-        <div className="text-amber-600 font-bold text-xl md:text-3xl cursor-pointer select-none">
-          GSosial
+        <div className="cursor-pointer select-none">
+          <img src={logo} alt="Logo GSosial" className="h-8 md:h-10 object-contain" />
         </div>
 
         {/* Desktop Menu */}
