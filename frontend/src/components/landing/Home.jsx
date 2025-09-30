@@ -69,10 +69,10 @@ const Home = () => {
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-4 text-center max-w-5xl mx-auto">
         <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl mb-4 leading-tight">
-          Lorem Ipsum
+          Bersama Membangun Kebaikan
         </h1>
         <p className="text-lg md:text-xl mb-8">
-          Lorem ipsum dolor sit amet.
+          Mari ciptakan perubahan sosial yang berdampak, mulai dari hari ini.
         </p>
         <div className="flex flex-col md:flex-row gap-4">
           <button className="bg-orange-500 px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition">

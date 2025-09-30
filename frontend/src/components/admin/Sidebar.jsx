@@ -1,6 +1,7 @@
 // src/components/admin/Sidebar.jsx
 import React from "react";
-import { Link } from "react-router-dom"; // ⬅️ Gunakan Link, bukan <a>
+import { Link } from "react-router-dom";
+import { XMarkIcon} from "@heroicons/react/24/outline";
 
 const SidebarItem = ({ to, label }) => {
   return (
@@ -15,21 +16,44 @@ const SidebarItem = ({ to, label }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   return (
-    <aside className="w-64 bg-amber-600 shadow-lg fixed h-screen overflow-hidden">
-      <div className="p-6 border-b border-white">
-        <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
-      </div>
-      <nav className="mt-6">
-        <ul className="space-y-2">
-          <SidebarItem to="/admin" label="Dashboard" />
-          <SidebarItem to="/admin/manage-member" label="Data Anggota" />
-          <SidebarItem to="/admin/donations" label="Data Donasi" />
-          <SidebarItem to="/admin/events" label="Event / Program" />
-        </ul>
-      </nav>
-    </aside>
+    <>
+      {/* Overlay (hanya muncul di mobile) */}
+      <div
+        className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity ${
+          isOpen ? "block" : "hidden"
+        }`}
+        onClick={onClose}
+      ></div>
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 z-50 h-full w-52 md:w-56 bg-amber-600 shadow-lg transform transition-transform duration-300
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:block`}
+      >
+        <div className="p-6 border-b border-white flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
+
+          {/* Close button (mobile only) */}
+          <button
+            className="md:hidden text-white"
+            onClick={onClose}
+          >
+            <XMarkIcon className="h-6 w-6" />
+          </button>
+        </div>
+
+        <nav className="mt-6">
+          <ul className="space-y-2 overflow-hidden">
+            <SidebarItem to="/admin" label="Dashboard" />
+            <SidebarItem to="/admin/manage-member" label="Data Anggota" />
+            <SidebarItem to="/admin/donations" label="Data Donasi" />
+            <SidebarItem to="/admin/events" label="Event / Program" />
+          </ul>
+        </nav>
+      </aside>
+    </>
   );
 };
 
