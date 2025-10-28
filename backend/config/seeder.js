@@ -1,5 +1,5 @@
 // seeder.js
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/../.env' });
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');

@@ -75,12 +75,12 @@ const Home = () => {
           Mari ciptakan perubahan sosial yang berdampak, mulai dari hari ini.
         </p>
         <div className="flex flex-col md:flex-row gap-4">
-          <button className="bg-orange-500 px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition">
+          <a href='login' className="bg-orange-500 px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition">
             Pelajari Lebih Lanjut
-          </button>
-          <button className="border border-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-black transition">
+          </a>
+          <a href='login' className="border border-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-black transition">
             Bergabung dengan Kami
-          </button>
+          </a>
         </div>
       </div>
     </div>

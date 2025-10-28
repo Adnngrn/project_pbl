@@ -24,6 +24,7 @@ const DonationProgramDetail = () => {
     description: "",
     targetAmount: 0,
     status: "open",
+    accountNumber: "",
   });
 
   const fetchProgram = async () => {
@@ -35,6 +36,7 @@ const DonationProgramDetail = () => {
         description: res.data.description,
         targetAmount: res.data.targetAmount,
         status: res.data.status,
+        accountNumber: res.data.accountNumber || "",
       });
     } catch (err) {
       console.error("Gagal fetch detail program:", err);
@@ -349,6 +351,16 @@ const DonationProgramDetail = () => {
               />
             </div>
             <div className="mb-3">
+              <label className="block text-sm font-medium">Nomor Rekening</label>
+              <input
+                type="text"
+                name="accountNumber"
+                value={formData.accountNumber}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded"
+              />
+            </div>
+            <div className="mb-3">
               <label className="block text-sm font-medium">Status</label>
               <select
                 name="status"
@@ -373,7 +385,7 @@ const DonationProgramDetail = () => {
               >
                 Simpan
               </button>
-            </div>
+            </div>    
           </div>
         </div>
       )}

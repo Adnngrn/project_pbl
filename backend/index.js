@@ -12,11 +12,11 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // static uploads
-app.use('/uploads', express.static(path.join(__dirname, process.env.UPLOAD_DIR || 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, process.env.UPLOAD_DIR)));
 
 
 // connect db
-connectDB(process.env.MONGO_URI || 'mongodb://localhost:27017/projek_pbl');
+connectDB(process.env.MONGO_URI);
 
 
 // routes
@@ -26,5 +26,5 @@ app.use('/api/events', require('./routes/events'));
 app.use('/api/donations', require('./routes/donations'));
 app.use('/api/profile', require('./routes/profile'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

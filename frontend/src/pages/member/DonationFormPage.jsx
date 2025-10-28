@@ -4,7 +4,7 @@ import { submitDonation } from "../../services/donationService";
 import { getDonationProgramDetail } from "../../services/donationProgramService";
 
 const DonationFormPage = () => {
-  const { id } = useParams(); // ✅ route param /donasi/:id/form
+  const { id } = useParams(); //route param /donasi/:id/form
   const navigate = useNavigate();
   const [program, setProgram] = useState(null);
 
@@ -68,6 +68,7 @@ const DonationFormPage = () => {
 
       {/* Card Program */}
       {program && (
+        <>
         <div className="mb-6 border rounded-lg p-4 bg-gray-50">
           <h3 className="text-lg font-semibold text-gray-800">
             {program.title}
@@ -77,7 +78,19 @@ const DonationFormPage = () => {
             Target: Rp {Number(program.targetAmount).toLocaleString()} | 
             Terkumpul: Rp {Number(program.collectedAmount || 0).toLocaleString()}
           </p>
+
         </div>
+        <div className="mb-6 bg-white border rounded p-3">
+          <h4 className="font-semibold text-gray-800 mb-1">Rekening Tujuan Donasi</h4>
+          <p className="text-sm text-gray-700">
+            <span className="font-medium">Nomor Rekening:</span>{" "}
+            {program.accountNumber || "Tidak tersedia"}
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            Silakan transfer sesuai nominal donasi Anda, lalu upload bukti transfer di bawah ini.
+          </p>
+        </div>
+        </>
       )}
 
       {/* Form Donasi */}

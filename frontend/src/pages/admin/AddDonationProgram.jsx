@@ -1,4 +1,3 @@
-// src/pages/admin/AddDonationProgram.jsx
 import React, { useState } from "react";
 import { createDonationProgram } from "../../services/donationProgramService";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +7,7 @@ const AddDonationProgram = () => {
     title: "",
     description: "",
     targetAmount: "",
+    accountNumber: "", 
   });
   const navigate = useNavigate();
 
@@ -41,6 +41,7 @@ const AddDonationProgram = () => {
             required
           />
         </div>
+
         <div>
           <label>Deskripsi</label>
           <textarea
@@ -51,6 +52,7 @@ const AddDonationProgram = () => {
             required
           />
         </div>
+
         <div>
           <label>Target Donasi</label>
           <input
@@ -62,6 +64,18 @@ const AddDonationProgram = () => {
             required
           />
         </div>
+
+        <div>
+          <label>Nomor Rekening</label>
+          <input
+            name="accountNumber"
+            value={form.accountNumber}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
+
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded"

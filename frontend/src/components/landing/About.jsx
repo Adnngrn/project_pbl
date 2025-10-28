@@ -50,9 +50,9 @@ const About = () => {
           </ul>
         </div>
 
-        <button className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold px-5 py-2 rounded shadow-md">
+        <a href='login' className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold px-5 py-2 rounded shadow-md">
           Pelajari Program Kami
-        </button>
+        </a>
       </div>
 
       {/* KONTEN KIRI (GAMBAR), MUNCUL DI BAWAH SAAT MOBILE */}

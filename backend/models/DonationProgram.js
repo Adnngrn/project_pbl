@@ -5,6 +5,7 @@ const donationProgramSchema = new mongoose.Schema({
   description: { type: String },
   targetAmount: { type: Number }, // opsional
   collectedAmount: { type: Number, default: 0 }, // akumulasi dari donasi yang approved
+  accountNumber: { type: String, required: true }, // kolom untuk nomor rekening
   status: { type: String, enum: ['open', 'closed'], default: 'open' },
   createdAt: { type: Date, default: Date.now }
 });

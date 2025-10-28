@@ -16,11 +16,12 @@ const upload = multer({ storage });
 // Admin buat program donasi
 const createProgram = async (req, res) => {
   try {
-    const { title, description, targetAmount } = req.body;
+    const { title, description, targetAmount, accountNumber } = req.body;
     const program = await DonationProgram.create({
       title,
       description,
       targetAmount,
+      accountNumber,
     });
     res.status(201).json(program);
   } catch (err) {
@@ -92,7 +93,7 @@ const getProgramDetail = async (req, res) => {
       ...program,
       approvedDonations: approved,
       pendingDonations: pending,
-      rejectedDonations: rejected, // ✅ Tambahkan ini
+      rejectedDonations: rejected,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
